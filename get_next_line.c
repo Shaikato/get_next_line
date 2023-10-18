@@ -39,7 +39,9 @@ char	*get_next_line(int fd)
 	char		*tr_str;
 	char		*str;
 	int			i;
-
+	
+	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
+		return (NULL);
 	str = (char *)malloc(BUFFER_SIZE + 1 * sizeof(*str));
 	if (!str)
 		return (NULL);
