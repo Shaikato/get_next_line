@@ -16,12 +16,25 @@
 #include <stdio.h>
 #include "get_next_line.h"
 
+int	ft_count(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (*str && *(str - 1) != '\n')
+	{
+		i++;
+		str++;
+	}
+	return (i);
+}
+
 char	*ft_cut(char *str)
 {
 	char	*tr_str;
 	char	*start;
 
-	tr_str = malloc((ft_strlen(str) + 1) * sizeof(char));
+	tr_str = malloc((ft_count(str) + 1) * sizeof(char));
 	start = tr_str;
 	while(*(str - 1) != '\n' && *str)
 	{
