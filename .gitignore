@@ -61,3 +61,5 @@ main.c
 .vscode/c_cpp_properties.json
 .gitignore
 .gitignore
+file.txt
+.gitignore

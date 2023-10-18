@@ -33,18 +33,29 @@ char	*ft_cut(char *str)
 	return (start); 
 }
 
+void	ft_free(char *memory, char *str)
+{
+	if (memory)
+		free(memory);
+	if (str)
+		free(str);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*memory;
 	char		*tr_str;
 	char		*str;
 	int			i;
-	
+
 	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
 		return (NULL);
 	str = (char *)malloc(BUFFER_SIZE + 1 * sizeof(*str));
 	if (!str)
+	{
+		ft_free(memory, str);
 		return (NULL);
+	}
 	i = 1;
 	while(i && !ft_strchr(str, '\n'))
 	{
