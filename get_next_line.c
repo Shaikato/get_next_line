@@ -102,7 +102,5 @@ char	*get_next_line(int fd)
 	}
 	if (i == 0)
 		eof = 1;
-	str = ft_cut(&memory);
-	printf("Mem = %s\n", memory);
-	return (str);
+	return (ft_cut(memory));
 }
