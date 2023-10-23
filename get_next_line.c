@@ -66,7 +66,7 @@ char	*get_next_line(int fd)
 
 	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0 || eof == 1)
 		return (NULL);
-	str = (char *)malloc(BUFFER_SIZE + 1 * sizeof(*str));
+	str = (char *)malloc((BUFFER_SIZE + 1) * sizeof(*str));
 	if (!str)
 	{
 		ft_free(memory, str);
