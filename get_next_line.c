@@ -102,5 +102,5 @@ char	*get_next_line(int fd)
 	}
 	if (i == 0)
 		eof = 1;
-	return (ft_cut(memory));
+	return (ft_cut(&memory));
 }
