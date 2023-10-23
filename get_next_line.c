@@ -81,7 +81,6 @@ void	ft_free(char *memory, char *str)
 char	*get_next_line(int fd)
 {
 	static char	*memory;
-	char		*tr_str;
 	char		*str;
 	int			i;
 	static int	eof;
