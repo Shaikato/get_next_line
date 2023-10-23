@@ -65,7 +65,7 @@ char    *ft_cut(char **str)
     else
     {
         res = ft_strdup(*str);
-        *str += ft_strlen(*str);
+        *str += ft_strlen(*str) - 1;
     }
     return (res);
 }
