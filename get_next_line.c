@@ -60,12 +60,12 @@ char    *ft_cut(char **str)
     {
         len = nl_pos - *str;
         res = ft_strndup(*str, len);
-        *str = nl_pos + 1;
+        *str = nl_pos;
     }
     else
     {
         res = ft_strdup(*str);
-        *str += ft_strlen(*str) - 1;
+        *str += ft_strlen(*str);
     }
     return (res);
 }
