@@ -29,21 +29,45 @@ int	ft_count(char *str)
 	return (i);
 }
 
-char	*ft_cut(char *str)
+char    *ft_strndup(const char *src, size_t n)
 {
-	char	*tr_str;
-	char	*start;
+    char    *dup;
+    size_t  i;
 
-	tr_str = malloc((ft_count(str) + 1) * sizeof(char));
-	start = tr_str;
-	while(*(str - 1) != '\n' && *str)
-	{
-		*tr_str = *str;
-		tr_str++;
-		str++;
-	}
-	*tr_str = 0;
-	return (start); 
+    dup = (char *)malloc(n + 1);
+    if (!dup)
+        return (NULL);
+    i = 0;
+    while (i < n && src[i])
+    {
+        dup[i] = src[i];
+        i++;
+    }
+    dup[i] = '\0';
+    return (dup);
+}
+
+char    *ft_cut(char **str)
+{
+    char    *nl_pos;
+    char    *res;
+    size_t  len;
+
+    if (!str || !*str)
+        return (NULL);
+    nl_pos = ft_strchr(*str, '\n');
+    if (nl_pos)
+    {
+        len = nl_pos - *str;
+        res = ft_strndup(*str, len);
+        *str = nl_pos + 1;
+    }
+    else
+    {
+        res = ft_strdup(*str);
+        *str += ft_strlen(*str);
+    }
+    return (res);
 }
 
 void	ft_free(char *memory, char *str)
@@ -53,8 +77,6 @@ void	ft_free(char *memory, char *str)
 	if (str)
 		free(str);
 }
-
-#include <stdio.h>
 
 char	*get_next_line(int fd)
 {
@@ -81,7 +103,7 @@ char	*get_next_line(int fd)
 	}
 	if (i == 0)
 		eof = 1;
-	tr_str = ft_strdup(memory);
-	memory = ft_strchr(memory, '\n');
-	return (ft_cut(tr_str));
+	str = ft_cut(&memory);
+	printf("Mem = %s\n", memory);
+	return (str);
 }
