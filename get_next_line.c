@@ -54,14 +54,17 @@ void	ft_free(char *memory, char *str)
 		free(str);
 }
 
+#include <stdio.h>
+
 char	*get_next_line(int fd)
 {
 	static char	*memory;
 	char		*tr_str;
 	char		*str;
 	int			i;
+	static int	eof;
 
-	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
+	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0 || eof == 1)
 		return (NULL);
 	str = (char *)malloc(BUFFER_SIZE + 1 * sizeof(*str));
 	if (!str)
@@ -76,6 +79,8 @@ char	*get_next_line(int fd)
 		str[i] = 0;
 		memory = ft_strjoin(memory, str);
 	}
+	if (i == 0)
+		eof = 1;
 	tr_str = ft_strdup(memory);
 	memory = ft_strchr(memory, '\n');
 	return (ft_cut(tr_str));
