@@ -53,6 +53,7 @@ char    *ft_cut(char **str)
     char    *res;
     size_t  len;
 
+	
     if (!str || !*str)
         return (NULL);
     nl_pos = ft_strchr(*str, '\n');
@@ -87,20 +88,29 @@ char	*get_next_line(int fd)
 
 	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0 || eof == 1)
 		return (NULL);
-	str = (char *)malloc((BUFFER_SIZE + 1) * sizeof(*str));
-	if (!str)
-	{
-		ft_free(memory, str);
-		return (NULL);
-	}
 	i = 1;
+	if (!eof)
+		eof = 0;
 	while(i && !ft_strchr(str, '\n'))
 	{
+		str = (char *)malloc((BUFFER_SIZE + 1) * sizeof(*str));
+		if (!str)
+		{
+			ft_free(memory, str);
+			return (NULL);
+		}
 		i = read(fd, str, BUFFER_SIZE);
 		str[i] = 0;
 		memory = ft_strjoin(memory, str);
+		free(str);
 	}
-	if (i == 0)
+	str = ft_cut(&memory);
+	if (*str == 0 || !str)
+	{
+		free(memory);
+		free(str);
 		eof = 1;
-	return (ft_cut(&memory));
+		return (NULL);
+	}
+	return (str);
 }
