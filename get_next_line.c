@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 17:45:44 by randre            #+#    #+#             */
-/*   Updated: 2023/10/30 11:41:25 by randre           ###   ########.fr       */
+/*   Updated: 2023/10/30 11:44:34 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*ft_cut(char **str)
 	return (res);
 }
 
-void	*loop_get(char *str, int fd, char **memory)
+void	loop_get(char *str, int fd, char **memory)
 {
 	int		i;
 
@@ -84,7 +84,8 @@ void	*loop_get(char *str, int fd, char **memory)
 		if (!str)
 		{
 			free(*memory);
-			return (NULL);
+			*memory = NULL;
+			return ;
 		}
 		i = read(fd, str, BUFFER_SIZE);
 		str[i] = 0;
@@ -102,6 +103,8 @@ char	*get_next_line(int fd)
 		return (NULL);
 	str = NULL;
 	loop_get(str, fd, &memory);
+	if (memory == NULL)
+		return (NULL);
 	str = ft_cut(&memory);
 	if (*str == 0 || !str)
 	{

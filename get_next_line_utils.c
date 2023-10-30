@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 18:23:52 by randre            #+#    #+#             */
-/*   Updated: 2023/10/30 11:37:41 by randre           ###   ########.fr       */
+/*   Updated: 2023/10/30 12:05:16 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,10 @@ char	*ft_strdup(const char *s)
 	return (start);
 }
 
-char	*ft_strjoin2(char *s1, char *s2, char *s_start, char *str)
+char	*ft_strjoin2(char *s1, char *s2, char *str)
 {
 	char	*start;
+	char	*s_start;
 
 	start = str;
 	s_start = s1;
@@ -91,7 +92,6 @@ char	*ft_strjoin2(char *s1, char *s2, char *s_start, char *str)
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
-	char	*s_start;
 
 	if (!s1)
 		str = malloc((ft_strlen(s2) + 1) * sizeof(char));
@@ -99,5 +99,5 @@ char	*ft_strjoin(char *s1, char *s2)
 		str = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
-	return (ft_strjoin2(s1, s2, s_start, str));
+	return (ft_strjoin2(s1, s2, str));
 }
