@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 17:45:44 by randre            #+#    #+#             */
-/*   Updated: 2023/10/30 15:44:46 by randre           ###   ########.fr       */
+/*   Created: 2023/10/30 12:39:32 by randre            #+#    #+#             */
+/*   Updated: 2023/10/30 15:44:05 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <limits.h>
 #include "get_next_line.h"
-
-int	ft_count(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (*str && *(str - 1) != '\n')
-	{
-		i++;
-		str++;
-	}
-	return (i);
-}
 
 char	*ft_strndup(const char *src, size_t n)
 {
@@ -103,7 +91,7 @@ void	loop_get(char *str, int fd, char **memory)
 
 char	*get_next_line(int fd)
 {
-	static char	*memory;
+	static char	*memory[OPEN_MAX];
 	char		*str;
 
 	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
@@ -115,13 +103,13 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	str = NULL;
-	loop_get(str, fd, &memory);
-	if (memory == NULL)
+	loop_get(str, fd, &memory[fd]);
+	if (memory[fd] == NULL)
 		return (NULL);
-	str = ft_cut(&memory);
+	str = ft_cut(&memory[fd]);
 	if (*str == 0 || !str)
 	{
-		free(memory);
+		free(memory[fd]);
 		free(str);
 		return (NULL);
 	}
