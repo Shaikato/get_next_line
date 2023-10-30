@@ -6,16 +6,14 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 17:45:44 by randre            #+#    #+#             */
-/*   Updated: 2023/10/30 11:20:51 by randre           ###   ########.fr       */
+/*   Updated: 2023/10/30 11:41:25 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
-#include <unistd.h>
 #include <stdlib.h>
-#include <stdio.h>
+#include <unistd.h>
 #include "get_next_line.h"
-#include "ft_printf.h"
 
 int	ft_count(char *str)
 {
@@ -75,30 +73,35 @@ char	*ft_cut(char **str)
 	return (res);
 }
 
-
-char	*get_next_line(int fd)
+void	*loop_get(char *str, int fd, char **memory)
 {
-	static char	*memory;
-	char		*str;
-	int			i;
+	int		i;
 
-	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
-		return (NULL);
 	i = 1;
-	str = NULL;
 	while (i)
 	{
 		str = (char *)malloc((BUFFER_SIZE + 1) * sizeof(*str));
 		if (!str)
 		{
-			free(memory);
+			free(*memory);
 			return (NULL);
 		}
 		i = read(fd, str, BUFFER_SIZE);
 		str[i] = 0;
-		memory = ft_strjoin(memory, str);
+		*memory = ft_strjoin(*memory, str);
 		free(str);
 	}
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*memory;
+	char		*str;
+
+	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
+		return (NULL);
+	str = NULL;
+	loop_get(str, fd, &memory);
 	str = ft_cut(&memory);
 	if (*str == 0 || !str)
 	{
