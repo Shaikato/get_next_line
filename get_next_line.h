@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 18:24:11 by randre            #+#    #+#             */
-/*   Updated: 2023/10/18 18:24:11 by randre           ###   ########.fr       */
+/*   Updated: 2023/10/28 07:11:06 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 char	*ft_strchr(const char *str, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s);
-size_t	ft_strlen(const char *str);
+unsigned int	ft_strlen(const char *str);
 char	*get_next_line(int fd);
 
 #endif

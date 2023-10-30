@@ -6,16 +6,18 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 18:23:52 by randre            #+#    #+#             */
-/*   Updated: 2023/10/18 18:23:52 by randre           ###   ########.fr       */
+/*   Updated: 2023/10/30 11:21:34 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include <stdlib.h>
+#include "ft_printf.h"
+#include <stdio.h>
 
-size_t	ft_strlen(const char *str)
+unsigned int	ft_strlen(const char *str)
 {
-	size_t	i;
+	unsigned int	i;
 
 	i = 0;
 	while (*str)
@@ -26,10 +28,12 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strchr(const char *str, int c)
+char	*ft_strchr(char *str, int c)
 {
 	unsigned char	ch;
 
+	if (!str || str == NULL)
+		return (NULL);
 	ch = (unsigned char)c;
 	while (*str)
 		if (*str++ == ch)
@@ -44,6 +48,8 @@ char	*ft_strdup(const char *s)
 	char	*str;
 	char	*start;
 
+	if (!s)
+		return (NULL);
 	str = malloc((ft_strlen(s) + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
@@ -58,10 +64,11 @@ char	*ft_strdup(const char *s)
 	return (start);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	char	*start;
+	char	*s_start;
 
 	if (!s1)
 		str = malloc((ft_strlen(s2) + 1) * sizeof(char));
@@ -70,13 +77,17 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!str)
 		return (NULL);
 	start = str;
+	s_start = s1;
 	if (s1)
+	{
 		while (*s1)
 		{
 			*str = *s1;
 			str++;
 			s1++;
 		}
+	}
+	free(s_start);
 	while (*s2)
 	{
 		*str = *s2;
