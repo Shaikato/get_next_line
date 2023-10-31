@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:39:32 by randre            #+#    #+#             */
-/*   Updated: 2023/10/30 15:44:05 by randre           ###   ########.fr       */
+/*   Updated: 2023/10/31 04:58:57 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,18 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
+
+void	ft_free(char **memory)
+{
+	if (*memory != NULL)
+	{
+		free(*memory);
+		*memory = NULL;
+	}
+	else
+		*memory = NULL;
+}
 
 char	*ft_strndup(const char *src, size_t n)
 {
@@ -49,13 +60,13 @@ char	*ft_cut(char **str)
 	{
 		len = ft_strchr(*str, '\n') - *str;
 		res = ft_strndup(*str, len);
-		free(*str);
+		ft_free(str);
 		*str = nl_pos;
 	}
 	else
 	{
 		res = ft_strdup(*str);
-		free(*str);
+		ft_free(str);
 		*str = NULL;
 	}
 	return (res);
@@ -71,15 +82,13 @@ void	loop_get(char *str, int fd, char **memory)
 		str = (char *)malloc((BUFFER_SIZE + 1) * sizeof(*str));
 		if (!str)
 		{
-			free(*memory);
-			*memory = NULL;
+			ft_free(memory);
 			return ;
 		}
 		i = read(fd, str, BUFFER_SIZE);
 		if (i == -1)
 		{
-			free(*memory);
-			*memory = NULL;
+			ft_free(memory);
 			free(str);
 			return ;
 		}
@@ -94,12 +103,11 @@ char	*get_next_line(int fd)
 	static char	*memory[OPEN_MAX];
 	char		*str;
 
+	if (fd < 0 || fd > OPEN_MAX)
+		return (NULL);
 	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
 	{
-		if (!*memory)
-			return (NULL);
-		if (*memory)
-			free(memory);
+		ft_free(&memory[fd]);
 		return (NULL);
 	}
 	str = NULL;
@@ -109,7 +117,7 @@ char	*get_next_line(int fd)
 	str = ft_cut(&memory[fd]);
 	if (*str == 0 || !str)
 	{
-		free(memory[fd]);
+		ft_free(&memory[fd]);
 		free(str);
 		return (NULL);
 	}

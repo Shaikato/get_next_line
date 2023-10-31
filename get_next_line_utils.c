@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 18:23:52 by randre            #+#    #+#             */
-/*   Updated: 2023/10/30 12:05:16 by randre           ###   ########.fr       */
+/*   Updated: 2023/10/31 04:18:46 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ char	*ft_strjoin2(char *s1, char *s2, char *str)
 		}
 	}
 	free(s_start);
+	s1 = NULL;
 	while (*s2)
 	{
 		*str = *s2;

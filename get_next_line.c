@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 17:45:44 by randre            #+#    #+#             */
-/*   Updated: 2023/10/30 15:44:46 by randre           ###   ########.fr       */
+/*   Updated: 2023/10/31 04:55:20 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,15 @@
 #include <unistd.h>
 #include "get_next_line.h"
 
-int	ft_count(char *str)
+void	ft_free(char **memory)
 {
-	int	i;
-
-	i = 0;
-	while (*str && *(str - 1) != '\n')
+	if (*memory != NULL)
 	{
-		i++;
-		str++;
+		free(*memory);
+		*memory = NULL;
 	}
-	return (i);
+	else
+		*memory = NULL;
 }
 
 char	*ft_strndup(const char *src, size_t n)
@@ -73,25 +71,20 @@ char	*ft_cut(char **str)
 	return (res);
 }
 
-void	loop_get(char *str, int fd, char **memory)
+void	loop_get(char *str, int fd, char **memory, int i)
 {
-	int		i;
-
-	i = 1;
 	while (i)
 	{
 		str = (char *)malloc((BUFFER_SIZE + 1) * sizeof(*str));
 		if (!str)
 		{
-			free(*memory);
-			*memory = NULL;
+			ft_free(memory);
 			return ;
 		}
 		i = read(fd, str, BUFFER_SIZE);
 		if (i == -1)
 		{
-			free(*memory);
-			*memory = NULL;
+			ft_free(memory);
 			free(str);
 			return ;
 		}
@@ -105,23 +98,22 @@ char	*get_next_line(int fd)
 {
 	static char	*memory;
 	char		*str;
+	int			i;
 
+	i = -1;
 	if (BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
 	{
-		if (!*memory)
-			return (NULL);
-		if (*memory)
-			free(memory);
+		ft_free(&memory);
 		return (NULL);
 	}
 	str = NULL;
-	loop_get(str, fd, &memory);
+	loop_get(str, fd, &memory, i);
 	if (memory == NULL)
 		return (NULL);
 	str = ft_cut(&memory);
 	if (*str == 0 || !str)
 	{
-		free(memory);
+		ft_free(&memory);
 		free(str);
 		return (NULL);
 	}
