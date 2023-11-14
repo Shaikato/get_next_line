@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:39:32 by randre            #+#    #+#             */
-/*   Updated: 2023/10/31 04:58:57 by randre           ###   ########.fr       */
+/*   Updated: 2023/11/14 15:20:10 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	loop_get(char *str, int fd, char **memory)
 	int		i;
 
 	i = 1;
-	while (i)
+	while (i && !ft_strchr(*memory, '\n'))
 	{
 		str = (char *)malloc((BUFFER_SIZE + 1) * sizeof(*str));
 		if (!str)
